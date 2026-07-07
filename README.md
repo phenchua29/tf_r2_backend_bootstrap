@@ -142,4 +142,4 @@ export AWS_SECRET_ACCESS_KEY='<token_key_secret>'
 
 ## License
 
-This project is licensed under the [Apache v2.0 License](LICENSE).
+This project is licensed under the [MIT License](LICENSE).
