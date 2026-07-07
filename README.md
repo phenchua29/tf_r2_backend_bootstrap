@@ -1,6 +1,6 @@
 # Backend Bootstrapping Terraform Module
 
-This Terraform module bootstraps Cloudflare R2 buckets and generates read-write tokens for them.
+This Terraform module bootstraps a Cloudflare R2 bucket and generates a read-write token for it.
 
 The module was made for fast bootstrapping of S3 backends.
 
@@ -40,15 +40,12 @@ Before running the module, make sure the following requirements are met:
 ```hcl
 module "example" {
   source                = "git::https://github.com/PhenChua29/tf_r2_backend_bootstrap.git?ref=v0.1.2"
-  bucket_names          = [
-    "<example-bucket>",
-    "<another-bucket>",
-  ]
+  bucket_name           = "<example-bucket>"
   cloudflare_account_id = "<account-id>"
 }
 
-output "buckets" {
-  value = module.example.buckets
+output "bucket" {
+  value     = module.example.bucket
   sensitive = true
 }
 
@@ -65,38 +62,31 @@ terraform plan -out tfplan
 terraform apply tfplan
 ```
 
-### Using the Newly Created S3 Backends
+### Using the Newly Created S3 Backend
 
 After successfully running the above commands, check the S3 backend info. Since the bucket credentials are sensitive outputs, you can retrieve them in JSON format:
 
 ```bash
-terraform output -json buckets
+terraform output -json bucket
 ```
 
-This will return a JSON list of the created buckets and their credentials:
+This will return a JSON object of the created bucket and its credentials:
 
 ```json
-[
-  {
-    "name": "<example-bucket>",
-    "token_key_id": "<token-key-id>",
-    "token_key_secret": "<hashed-token-key-secret>"
-  },
-  {
-    "name": "<another-bucket>",
-    "token_key_id": "<token-key-id>",
-    "token_key_secret": "<hashed-token-key-secret>"
-  }
-]
+{
+  "name": "<example-bucket>",
+  "token_key_id": "<token-key-id>",
+  "token_key_secret": "<hashed-token-key-secret>"
+}
 ```
 
 Get the backend endpoint:
 
 - `endpoints.s3`: `terraform output endpoint`
 
-To use one of the created S3 buckets as a backend:
+To use the created S3 bucket as a backend:
 
-1. Retrieve the credentials for your chosen bucket from the JSON output list and keep them exported for your backend configuration.
+1. Retrieve the credentials for the bucket from the JSON output and keep them exported for your backend configuration.
 
 ```.envrc
 # Dummy region value to satisfy the AWS S3 SDK (since connections are routed via S3 endpoints)
@@ -130,14 +120,14 @@ export AWS_SECRET_ACCESS_KEY='<token_key_secret>'
 | Variable                | Type          | Required | Description                                                                                                                                                                                               |
 | ----------------------- | ------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `cloudflare_account_id` | `string`      | Yes      | Your Cloudflare account ID.                                                                                                                                                                               |
-| `bucket_names`          | `set(string)` | Yes      | A set of R2 bucket names to create.                                                                                                                                                                       |
+| `bucket_name`           | `string`      | Yes      | The R2 bucket name to create.                                                                                                                                                                             |
 | `bucket_location`       | `string`      | No       | The location of the R2 bucket to create. Available values: `"apac"`, `"eeur"`, `"enam"`, `"weur"`, `"wnam"`, `"oc"`. See [Location hints](https://developers.cloudflare.com/r2/reference/data-location/#location-hints). |
 
 ### Outputs
 
 | Name       | Description                                                                                                                   |
 | ---------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `buckets`  | A list of objects containing details and credentials for each created R2 bucket (`name`, `token_key_id`, `token_key_secret`). |
+| `bucket`   | An object containing details and credentials for the created R2 bucket (`name`, `token_key_id`, `token_key_secret`).          |
 | `endpoint` | The S3 API endpoint URL for the Cloudflare R2 account.                                                                        |
 
 ## License

@@ -1,6 +1,6 @@
-variable "bucket_names" {
-  type        = set(string)
-  description = "Name of the backend s3 buckets for creation"
+variable "bucket_name" {
+  type        = string
+  description = "Name of the backend s3 bucket for creation"
 }
 
 variable "bucket_location" {
