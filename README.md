@@ -39,7 +39,7 @@ Before running the module, make sure the following requirements are met:
 
 ```hcl
 module "example" {
-  source                = "git::https://github.com/PhenChua29/tf_r2_backend_bootstrap.git?ref=v1.0.0"
+  source                = "git::https://github.com/phenchua29/tf_r2_backend_bootstrap.git?ref=v1.0.0"
   bucket_name           = "<example-bucket>"
   cloudflare_account_id = "<account-id>"
 }
