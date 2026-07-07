@@ -122,6 +122,7 @@ export AWS_SECRET_ACCESS_KEY='<token_key_secret>'
 | `cloudflare_account_id` | `string`      | Yes      | Your Cloudflare account ID.                                                                                                                                                                               |
 | `bucket_name`           | `string`      | Yes      | The R2 bucket name to create.                                                                                                                                                                             |
 | `bucket_location`       | `string`      | No       | The location of the R2 bucket to create. Available values: `"apac"`, `"eeur"`, `"enam"`, `"weur"`, `"wnam"`, `"oc"`. See [Location hints](https://developers.cloudflare.com/r2/reference/data-location/#location-hints). |
+| `generate_account_api_token` | `bool`   | No       | Whether the module should generate an account API token to access the buckets.                                                                                                                            |
 
 ### Outputs
 
