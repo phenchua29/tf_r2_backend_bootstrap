@@ -8,6 +8,7 @@ on:
       - '**/*.tf'
       - '**/*.tfvars'
       - '.terraform.lock.hcl'
+      - '.github/workflows/**'
   pull_request:
     branches:
       - main
@@ -15,6 +16,7 @@ on:
       - '**/*.tf'
       - '**/*.tfvars'
       - '.terraform.lock.hcl'
+      - '.github/workflows/**'
 
 permissions:
   id-token: write
