@@ -1,7 +1,6 @@
 resource "cloudflare_r2_bucket" "backend" {
-  for_each   = var.bucket_names
   account_id = var.cloudflare_account_id
-  name       = each.value
+  name       = var.bucket_name
   location   = var.bucket_location
 }
 
@@ -16,9 +15,8 @@ data "cloudflare_account_api_token_permission_groups_list" "r2_bucket_item_write
 }
 
 resource "cloudflare_account_token" "backend_bucket" {
-  for_each   = cloudflare_r2_bucket.backend
   account_id = var.cloudflare_account_id
-  name       = each.value.name
+  name       = cloudflare_r2_bucket.backend.name
   policies = [{
     effect = "allow"
     permission_groups = [
@@ -26,7 +24,7 @@ resource "cloudflare_account_token" "backend_bucket" {
       { id = data.cloudflare_account_api_token_permission_groups_list.r2_bucket_item_write.result[0].id },
     ]
     resources = jsonencode({
-      "com.cloudflare.edge.r2.bucket.${var.cloudflare_account_id}_default_${each.value.name}" = "*"
+      "com.cloudflare.edge.r2.bucket.${var.cloudflare_account_id}_default_${cloudflare_r2_bucket.backend.name}" = "*"
     })
   }]
 }

@@ -1,15 +1,9 @@
-locals {
-  buckets_list = [
-    for v in cloudflare_account_token.backend_bucket : {
-      name             = v.name
-      token_key_id     = v.id
-      token_key_secret = sha256(v.value)
-    }
-  ]
-}
-
-output "buckets" {
-  value     = local.buckets_list
+output "bucket" {
+  value = {
+    name             = cloudflare_r2_bucket.backend.name
+    token_key_id     = cloudflare_account_token.backend_bucket.id
+    token_key_secret = sha256(cloudflare_account_token.backend_bucket.value)
+  }
   sensitive = true
 }
 
