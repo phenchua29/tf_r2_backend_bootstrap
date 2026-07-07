@@ -4,9 +4,17 @@ on:
   push:
     branches:
       - main
+    paths:
+      - '**/*.tf'
+      - '**/*.tfvars'
+      - '.terraform.lock.hcl'
   pull_request:
     branches:
       - main
+    paths:
+      - '**/*.tf'
+      - '**/*.tfvars'
+      - '.terraform.lock.hcl'
 
 permissions:
   id-token: write
