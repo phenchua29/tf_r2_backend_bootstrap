@@ -1,5 +1,5 @@
 resource "cloudflare_r2_bucket" "backend" {
-  for_each = var.bucket_names
+  for_each   = var.bucket_names
   account_id = var.cloudflare_account_id
   name       = each.value
   location   = var.bucket_location
@@ -16,7 +16,7 @@ data "cloudflare_account_api_token_permission_groups_list" "r2_bucket_item_write
 }
 
 resource "cloudflare_account_token" "backend_bucket" {
-  for_each = cloudflare_r2_bucket.backend
+  for_each   = cloudflare_r2_bucket.backend
   account_id = var.cloudflare_account_id
   name       = each.value.name
   policies = [{

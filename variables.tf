@@ -14,3 +14,8 @@ variable "cloudflare_account_id" {
   description = "Cloudflare account id"
 }
 
+variable "generate_account_api_token" {
+  type        = bool
+  description = "Whether the module should generate an account api token to access the buckets"
+  default     = false
+}
